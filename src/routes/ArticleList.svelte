@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Article } from './+layout.server.ts';
+	import ArticleItem from './ArticleItem.svelte';
 	
 	// Define the props interface
 	interface Props {
@@ -10,24 +11,13 @@
 	let { articles = [] }: Props = $props();
 </script>
 
-<div class="articles-container">
+<div class="articles-container flex flex-col gap-2">
 	{#if articles.length === 0}
 		<p>No articles found.</p>
 	{:else}
-		<ul>
-			{#each articles as article (article.id)}
-				<li class="article-item">
-					<a href={article.url ?? '#'} class="article-title">{article.title}</a>
-					{#if article.excerpt}
-						<p class="article-excerpt">{article.excerpt}</p>
-					{/if}
-					<small class="article-meta">
-						{article.author ? `by ${article.author}` : ''}
-						{article.source ? ` — ${article.source}` : ''}
-					</small>
-				</li>
-			{/each}
-		</ul>
+		{#each articles as article (article.id)}
+			<ArticleItem {article} />
+		{/each}
 	{/if}
 </div>
 

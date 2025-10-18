@@ -1,8 +1,37 @@
 <script lang="ts">
   export const ssr = false;
   import { onMount } from 'svelte';
+  import type { Article } from './+layout.server.ts';
   
   let el: HTMLCanvasElement;
+
+  // Load in data from props
+  let { articles } = $props<{ articles: Article[] }>();
+
+  // Convert articles to points of interest for the globe
+    const pointsOfInterest = articles.map((article) => ({
+        lat: Math.round(article.coordinates[0]),
+        lng: Math.round(article.coordinates[1])
+    }));
+
+
+    const dummyPoints = [{
+        lat: 0,
+        lng: 0
+    },
+{
+        lat: 1,
+        lng: 1
+    },
+    {
+        lat: 10,
+        lng: 10
+    },
+    {
+        lat: -10,
+        lng: -10
+    }];
+    console.log('Points of Interest:', pointsOfInterest);
   
   onMount(async () => {
     // Dynamically import Three.js and ThreeGlobe on client-side only
@@ -29,12 +58,13 @@
       antialias: true,
       alpha: true
     });
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(window.devicePixelRatio * 2);
     renderer.setSize(el.clientWidth, el.clientHeight);
     
     // Globe setup
     const myGlobe = new ThreeGlobe()
     .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
+    .pointsData(dummyPoints)
 
     
     scene.add(myGlobe);
@@ -48,6 +78,8 @@
     
     function animate() {
       animationId = requestAnimationFrame(animate);
+
+        myGlobe.rotation.y += 0.001;
       
       renderer.render(scene, camera);
     }
@@ -78,9 +110,6 @@
 </svelte:head>
 
 <div class="wrap w-full">
-  {#if !el}
-    <div class="loading">Loading 3D Globe...</div>
-  {/if}
   <canvas bind:this={el} class="globe-canvas" />
 </div>
 

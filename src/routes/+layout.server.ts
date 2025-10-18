@@ -18,7 +18,15 @@ export interface Article {
 
 // Load articles data from the server, but for now use mock data
 export const load: LayoutServerLoad = async () => {
-    const data = await getArticlesByDate("01/02/2025")
+    // Get today's date in MM/DD/YYYY format
+    const today = new Date();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const year = today.getFullYear();
+    const formattedDate = `${month}/${day-1}/${year}`;
+
+    // Fetch articles for today's date
+    const data = await getArticlesByDate(formattedDate);
 
     const deserializedData = JSON.parse(JSON.stringify(data));
 

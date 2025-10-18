@@ -23,7 +23,7 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
-		background-color: rgba(207, 255, 206, 0.475);
+		background-color: rgba(176, 255, 174, 0.475);
 	}
 
 	main {
@@ -33,6 +33,7 @@
 		width: 100%;
 		margin: 0 auto;
 		box-sizing: border-box;
+		padding: 0px 8px;
 	}
 
 	/* Remove the footer styles if you're not using a footer
