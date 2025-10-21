@@ -21,9 +21,9 @@ export const load: LayoutServerLoad = async () => {
     // Get today's date in MM/DD/YYYY format
     const today = new Date();
     const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
+    const day = String(today.getDate()-1).padStart(2, '0');
     const year = today.getFullYear();
-    const formattedDate = `${month}/${day-1}/${year}`;
+    const formattedDate = `${month}/${day}/${year}`;
 
     // Fetch articles for today's date
     const data = await getArticlesByDate(formattedDate);

@@ -9,15 +9,15 @@
   let { articles } = $props<{ articles: Article[] }>();
 
   // Convert articles to points of interest for the globe
-    const pointsOfInterest = articles.map((article) => ({
-        lat: Math.round(article.coordinates[0]),
-        lng: Math.round(article.coordinates[1])
+    const pointsOfInterest = articles.map((article: Article) => ({
+        lat: Math.round(article.coordinates[1]),
+        lng: Math.round(article.coordinates[0])
     }));
 
 
     const dummyPoints = [{
-        lat: 0,
-        lng: 0
+        lat: -87,
+        lng: 32
     },
 {
         lat: 1,
@@ -64,7 +64,7 @@
     // Globe setup
     const myGlobe = new ThreeGlobe()
     .globeImageUrl('//unpkg.com/three-globe/example/img/earth-day.jpg')
-    .pointsData(dummyPoints)
+    .pointsData(pointsOfInterest)
 
     
     scene.add(myGlobe);
@@ -76,6 +76,7 @@
     // Animation loop
     let animationId: number;
     
+    
     function animate() {
       animationId = requestAnimationFrame(animate);
 
@@ -84,6 +85,7 @@
       renderer.render(scene, camera);
     }
     
+
     animate();
     
     // Handle window resize

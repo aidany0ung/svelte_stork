@@ -1,11 +1,17 @@
 <script lang="ts">
 	import Header from './Header.svelte';
+	import { setContext } from 'svelte';
 	import Globe from './Globe.svelte';
 	import type { LayoutData } from './$types';
 	import '../app.css';
 
 	// Get the articles data from layout.server.ts
 	let { data, children } = $props<{ data: LayoutData; children: any }>();
+
+
+	// Set the articles context for child
+	setContext('articles', data.articles);
+	setContext('dateRange', '2days');
 </script>
 
 <div class="app">
@@ -23,7 +29,7 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
-		background-color: rgba(176, 255, 174, 0.475);
+		background-color: rgb(226, 255, 226);
 	}
 
 	main {
